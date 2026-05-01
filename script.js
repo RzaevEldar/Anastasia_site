@@ -5,11 +5,7 @@ const buttonZone = document.querySelector("#buttonZone");
 const yesButton = document.querySelector("#yesButton");
 const noButton = document.querySelector("#noButton");
 const resetButton = document.querySelector("#resetButton");
-const screenshotButton = document.querySelector("#screenshotButton");
 const telegramButton = document.querySelector("#telegramButton");
-const screenshotResult = document.querySelector("#screenshotResult");
-const certificateImage = document.querySelector("#certificateImage");
-const downloadCertificate = document.querySelector("#downloadCertificate");
 const certificateNumberElement = document.querySelector("#certificateNumber");
 const certificateDateElement = document.querySelector("#certificateDate");
 const confirmationStatus = document.querySelector("#confirmationStatus");
@@ -24,7 +20,6 @@ noButton.after(noButtonHome);
 
 const CERTIFICATE_NUMBER = "№ ОБН-001";
 const CERTIFICATE_DATE = new Intl.DateTimeFormat("ru-RU").format(new Date());
-const SIGNATURE_SRC = "assets/signature-cropped.png";
 const floatingEmojis = ["🥺", "💖", "😽", "🫶", "💌", "💕", "😌", "✨", "😘", "🤍", "🌸", "💘"];
 const stickerMessages = [
   "Скучаометр проснулся. Уже теплее.",
@@ -287,161 +282,6 @@ function burstHearts(originX = window.innerWidth / 2, originY = window.innerHeig
   }
 }
 
-function drawRoundRect(context, x, y, width, height, radius) {
-  context.beginPath();
-  context.moveTo(x + radius, y);
-  context.lineTo(x + width - radius, y);
-  context.quadraticCurveTo(x + width, y, x + width, y + radius);
-  context.lineTo(x + width, y + height - radius);
-  context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  context.lineTo(x + radius, y + height);
-  context.quadraticCurveTo(x, y + height, x, y + height - radius);
-  context.lineTo(x, y + radius);
-  context.quadraticCurveTo(x, y, x + radius, y);
-  context.closePath();
-}
-
-function drawCenteredText(context, text, x, y, maxWidth, lineHeight) {
-  const words = text.split(" ");
-  const lines = [];
-  let line = "";
-
-  words.forEach((word) => {
-    const testLine = line ? `${line} ${word}` : word;
-    if (context.measureText(testLine).width > maxWidth && line) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = testLine;
-    }
-  });
-
-  lines.push(line);
-  lines.forEach((currentLine, index) => {
-    context.fillText(currentLine, x, y + index * lineHeight);
-  });
-
-  return y + lines.length * lineHeight;
-}
-
-function loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = src;
-  });
-}
-
-async function createCertificateImage() {
-  const canvas = document.createElement("canvas");
-  const width = 1080;
-  const height = 860;
-  canvas.width = width;
-  canvas.height = height;
-
-  const context = canvas.getContext("2d");
-  const background = context.createLinearGradient(0, 0, width, height);
-  background.addColorStop(0, "#ffe5ec");
-  background.addColorStop(0.52, "#daf6ff");
-  background.addColorStop(1, "#fff4bf");
-  context.fillStyle = background;
-  context.fillRect(0, 0, width, height);
-
-  context.save();
-  drawRoundRect(context, 70, 70, width - 140, height - 140, 46);
-  context.fillStyle = "rgba(255, 255, 255, 0.9)";
-  context.fill();
-  context.lineWidth = 6;
-  context.setLineDash([18, 14]);
-  context.strokeStyle = "rgba(215, 48, 97, 0.42)";
-  context.stroke();
-  context.restore();
-
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-
-  context.fillStyle = "#d73061";
-  context.font = "800 34px Manrope, Arial, sans-serif";
-  context.fillText("СЕРТИФИКАТ", width / 2, 150);
-
-  context.fillStyle = "#6f6277";
-  context.font = "800 28px Manrope, Arial, sans-serif";
-  context.fillText(`${CERTIFICATE_NUMBER}   •   ${CERTIFICATE_DATE}`, width / 2, 202);
-
-  context.fillStyle = "#251f2d";
-  context.font = "700 76px Comfortaa, Manrope, Arial, sans-serif";
-  let nextY = drawCenteredText(context, "На одну долгую обнимашку", width / 2, 298, 790, 88);
-
-  context.fillStyle = "#6f6277";
-  context.font = "800 34px Manrope, Arial, sans-serif";
-  context.fillText("кому выдан: самой красивой девушке", width / 2, nextY + 28);
-
-  context.fillStyle = "#d73061";
-  context.font = "800 38px Manrope, Arial, sans-serif";
-  nextY = drawCenteredText(context, "Если ты хочешь, то я тоже хочу.", width / 2, nextY + 104, 760, 50);
-
-  context.fillStyle = "#6f6277";
-  context.font = "700 30px Manrope, Arial, sans-serif";
-  context.fillText("действует сразу после подтверждения", width / 2, nextY + 56);
-
-  const signature = await loadImage(SIGNATURE_SRC);
-  const signatureWidth = 340;
-  const signatureHeight = (signature.height / signature.width) * signatureWidth;
-  context.globalAlpha = 0.96;
-  context.drawImage(signature, 570, nextY + 92, signatureWidth, signatureHeight);
-  context.globalAlpha = 1;
-  context.fillStyle = "#6f6277";
-  context.font = "800 26px Manrope, Arial, sans-serif";
-  context.textAlign = "left";
-  context.fillText("подпись:", 290, nextY + 158);
-  context.textAlign = "center";
-
-  context.save();
-  context.translate(252, nextY + 178);
-  context.rotate((-12 * Math.PI) / 180);
-  context.strokeStyle = "rgba(215, 48, 97, 0.82)";
-  context.fillStyle = "rgba(215, 48, 97, 0.9)";
-  context.lineWidth = 6;
-  context.beginPath();
-  context.arc(0, 0, 74, 0, Math.PI * 2);
-  context.stroke();
-  context.lineWidth = 3;
-  context.beginPath();
-  context.arc(0, 0, 53, 0, Math.PI * 2);
-  context.stroke();
-  context.font = "800 20px Manrope, Arial, sans-serif";
-  context.fillText("ПОДТВЕРЖДЕНО", 0, 5);
-  context.restore();
-
-  context.font = "96px 'Segoe UI Emoji', 'Apple Color Emoji', sans-serif";
-  context.fillText("💖", width / 2, height - 118);
-
-  context.font = "700 26px Manrope, Arial, sans-serif";
-  context.fillStyle = "rgba(37, 31, 45, 0.56)";
-  context.fillText("от Эльдара для Насти", width / 2, height - 30);
-
-  return canvas.toDataURL("image/png");
-}
-
-async function makeCertificateScreenshot() {
-  screenshotButton.disabled = true;
-  screenshotButton.replaceChildren(document.createTextNode("Делаю скрин"), document.createTextNode(" ✨"));
-
-  if (document.fonts?.ready) {
-    await document.fonts.ready;
-  }
-
-  const dataUrl = await createCertificateImage();
-  certificateImage.src = dataUrl;
-  downloadCertificate.href = dataUrl;
-  screenshotResult.classList.remove("is-hidden");
-  telegramButton.classList.remove("is-hidden");
-  confirmationStatus.classList.add("is-hidden");
-  screenshotButton.replaceChildren(document.createTextNode("Скрин готов"), document.createTextNode(" ✅"));
-  screenshotButton.disabled = false;
-}
-
 function markConfirmationWaiting() {
   confirmationStatus.classList.remove("is-hidden");
   telegramButton.replaceChildren(document.createTextNode("Жду подтверждение"), document.createTextNode(" 💖"));
@@ -472,14 +312,8 @@ function resetExperience() {
   noButton.disabled = true;
   returnNoButtonHome();
   yesButton.removeAttribute("style");
-  screenshotResult.classList.add("is-hidden");
-  telegramButton.classList.add("is-hidden");
-  certificateImage.removeAttribute("src");
-  downloadCertificate.removeAttribute("href");
   confirmationStatus.classList.add("is-hidden");
   telegramButton.replaceChildren(document.createTextNode("Отправить для подтверждения"), document.createTextNode(" ✈️"));
-  screenshotButton.disabled = false;
-  screenshotButton.replaceChildren(document.createTextNode("Сделать скрин"), document.createTextNode(" 📸"));
   setNoLabel(["Нет", "💔"]);
   reaction.textContent = "Нажми на стикеры, чтобы разогнать скучаометр.";
   subtitle.textContent = "Ответ очень важен для отдела поцелуйчиков и срочных обнимашек.";
@@ -501,7 +335,6 @@ stickerButtons.forEach((sticker) => {
 
 yesButton.addEventListener("click", acceptYes);
 resetButton.addEventListener("click", resetExperience);
-screenshotButton.addEventListener("click", makeCertificateScreenshot);
 telegramButton.addEventListener("click", markConfirmationWaiting);
 
 ["pointerenter", "pointerdown", "focus"].forEach((eventName) => {

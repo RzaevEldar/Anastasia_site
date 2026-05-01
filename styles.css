@@ -523,10 +523,6 @@ h2 {
   margin-top: clamp(22px, 4vw, 30px);
 }
 
-.screenshot-button {
-  background: linear-gradient(135deg, #26b99a, #51a7f9);
-}
-
 .telegram-button {
   width: min(100%, 330px);
   text-decoration: none;
@@ -537,33 +533,6 @@ h2 {
   margin: 14px 0 0;
   color: var(--rose-dark);
   font-weight: 800;
-}
-
-.screenshot-result {
-  width: min(100%, 520px);
-  margin-top: 18px;
-}
-
-.screenshot-result img {
-  display: block;
-  width: 100%;
-  border-radius: 18px;
-  box-shadow: 0 18px 42px rgba(64, 49, 74, 0.14);
-}
-
-.screenshot-result a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  margin-top: 12px;
-  padding: 10px 16px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.68);
-  color: var(--rose-dark);
-  font-weight: 800;
-  text-decoration: none;
-  box-shadow: 0 10px 24px rgba(64, 49, 74, 0.1);
 }
 
 .is-hidden {
@@ -842,10 +811,6 @@ h2 {
   .signature-row img {
     width: 232px;
     height: 76px;
-  }
-
-  .screenshot-result {
-    margin-top: 14px;
   }
 
   .reset-button {
