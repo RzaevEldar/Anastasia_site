@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Скучаешь по мне?</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='50'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="emoji-sky" aria-hidden="true"></div>
+
+    <main class="page-shell">
+      <section class="question-screen" id="questionScreen" aria-labelledby="mainQuestion">
+        <p class="eyebrow">важный романтический опрос</p>
+        <h1 id="mainQuestion">А ты скучаешь по мне?</h1>
+        <p class="subtitle" id="subtitle">
+          Ответ очень важен для отдела поцелуйчиков и срочных обнимашек.
+        </p>
+
+        <div class="mood-row" id="stickerRow" aria-label="Стикеры для скучаометра">
+          <button class="sticker-button" type="button" data-boost="14" aria-label="Добавить милый взгляд">
+            <span class="sticker-emoji" aria-hidden="true">🥺</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="14" aria-label="Добавить любовное письмо">
+            <span class="sticker-emoji" aria-hidden="true">💌</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="14" aria-label="Добавить поцелуй котика">
+            <span class="sticker-emoji" aria-hidden="true">😽</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="15" aria-label="Добавить сердечко">
+            <span class="sticker-emoji" aria-hidden="true">💖</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="14" aria-label="Добавить обнимашку">
+            <span class="sticker-emoji" aria-hidden="true">🫶</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="14" aria-label="Добавить нежность">
+            <span class="sticker-emoji" aria-hidden="true">😌</span>
+          </button>
+          <button class="sticker-button" type="button" data-boost="15" aria-label="Добавить романтику">
+            <span class="sticker-emoji" aria-hidden="true">💕</span>
+          </button>
+        </div>
+
+        <div class="miss-meter" aria-label="Скучаометр">
+          <div class="meter-copy">
+            <span>скучаометр</span>
+            <strong id="meterText">0%</strong>
+          </div>
+          <div class="meter-track">
+            <span id="meterFill"></span>
+          </div>
+        </div>
+
+        <div class="button-zone is-locked" id="buttonZone" aria-hidden="true">
+          <button class="answer-button yes-button" id="yesButton" type="button" disabled>
+            Да
+            <span>💖</span>
+          </button>
+          <button class="answer-button no-button" id="noButton" type="button" disabled>
+            Нет
+            <span>💔</span>
+          </button>
+        </div>
+
+        <p class="reaction" id="reaction">Нажми на стикеры, чтобы разогнать скучаометр.</p>
+      </section>
+
+      <section class="yes-screen" id="yesScreen" aria-live="polite" hidden>
+        <div class="success-mark" aria-hidden="true">💘</div>
+        <p class="eyebrow">официально подтверждено</p>
+        <h2>Солнышко, сертификат готов</h2>
+        <p class="final-copy">
+          Если тебе нравится, то мне тоже нравится. Поэтому бери скорее этот
+          сертификат и нажимай на “Сделать скрин”.
+        </p>
+
+        <div class="certificate-card" id="certificateCard" aria-label="Сертификат на обнимашку">
+          <p>сертификат</p>
+          <div class="certificate-meta">
+            <span id="certificateNumber">№ ОБН-001</span>
+            <span id="certificateDate">01.05.2026</span>
+          </div>
+          <h3>На одну долгую обнимашку</h3>
+          <span class="certificate-recipient">кому выдан: самой красивой девушке</span>
+          <strong>Если ты хочешь, то я тоже хочу.</strong>
+          <small>действует сразу после подтверждения</small>
+          <div class="signature-row">
+            <span>подпись:</span>
+            <img src="assets/signature-cropped.png" alt="Подпись Эльдара" />
+          </div>
+          <div class="stamp-mark" aria-hidden="true">подтверждено</div>
+          <div class="certificate-seal" aria-hidden="true">💖</div>
+        </div>
+
+        <div class="certificate-actions">
+          <button class="answer-button screenshot-button" id="screenshotButton" type="button">
+            Сделать скрин
+            <span>📸</span>
+          </button>
+          <a
+            class="answer-button telegram-button is-hidden"
+            id="telegramButton"
+            href="https://t.me/RzaevEldar"
+            target="_blank"
+            rel="noopener"
+          >
+            Отправить для подтверждения
+            <span>✈️</span>
+          </a>
+        </div>
+        <p class="confirmation-status is-hidden" id="confirmationStatus">
+          Жду подтверждение в Telegram 💖
+        </p>
+
+        <div class="screenshot-result is-hidden" id="screenshotResult">
+          <img id="certificateImage" alt="Скрин сертификата на обнимашку" />
+          <a id="downloadCertificate" download="sertifikat-na-obnimashku.png">Сохранить скрин</a>
+        </div>
+
+        <button class="answer-button reset-button" id="resetButton" type="button">
+          Еще раз
+          <span>✨</span>
+        </button>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" aria-live="polite" aria-atomic="true"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
